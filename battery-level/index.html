@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Battery Level</h2>
+
+    <div>
+        <label for="battery-level">Battery Level:</label>
+        <span id="battery-level"></span><br/>
+        <label for="battery-charging">Battery Charging:</label>
+        <span id="battery-charging"></span><br/>
+        <label for="battery-time-to-charge">Time to charge:</label>
+        <span id="battery-time-to-charge"></span><br/>
+        <label for="battery-time-to-discharge">Time to discharge:</label>
+        <span id="battery-time-to-discharge"></span>
+    </div>
+    
+
+
+    <script type="text/javascript">
+
+        var batteryLevel = document.getElementById('battery-level');
+        var batteryCharging = document.getElementById('battery-charging');
+        var batteryTimeToCharge = document.getElementById('battery-time-to-charge');
+        var batteryTimeToDischarge = document.getElementById('battery-time-to-discharge');
+
+
+        if (navigator.getBattery){
+
+            setInterval(function(){
+                navigator.getBattery().then(function(battery){
+                    updateBatteryStatus(battery);
+                });
+           }, 1000);
+            
+        }else if(navigator.battery){
+            setInterval(updateBatteryStatus(navigator.battery), 1000);
+        }else{
+            console.log('Battery API not supported');
+        }
+
+
+        function updateBatteryStatus(battery){
+            batteryLevel.innerHTML = battery.level*100 + '%';
+            batteryCharging.innerHTML = battery.charging;
+            batteryTimeToCharge.innerHTML = battery.chargingTime;
+            batteryTimeToDischarge.innerHTML = battery.dischargingTime;
+            console.log(battery);
+        }
+
+
+
+    </script>
+</body>
+</html>
